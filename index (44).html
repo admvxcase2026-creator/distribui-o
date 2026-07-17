@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>VX Case · Distribuição</title>
+<link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+CiAgPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iNyIgZmlsbD0iIzE1MTcxYiIvPgogIDxyZWN0IHg9IjUiIHk9IjYiIHdpZHRoPSIyMiIgaGVpZ2h0PSI2IiByeD0iMS44IiBmaWxsPSIjYzlkOWEzIi8+CiAgPHJlY3QgeD0iNSIgeT0iMTUiIHdpZHRoPSI5IiBoZWlnaHQ9IjQuNSIgcng9IjEuNSIgZmlsbD0iI2ZmZiIvPgogIDxyZWN0IHg9IjE4IiB5PSIxNSIgd2lkdGg9IjkiIGhlaWdodD0iNC41IiByeD0iMS41IiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIuMzUiLz4KICA8cmVjdCB4PSI1IiB5PSIyMiIgd2lkdGg9IjkiIGhlaWdodD0iNC41IiByeD0iMS41IiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIuMzUiLz4KICA8cmVjdCB4PSIxOCIgeT0iMjIiIHdpZHRoPSI5IiBoZWlnaHQ9IjQuNSIgcng9IjEuNSIgZmlsbD0iI2ZmZiIvPgo8L3N2Zz4K" />
+<meta name="theme-color" content="#15171b" />
+<meta name="color-scheme" content="light" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{
+  --ink:#15171b; --ink-2:#3c4149; --ink-3:#767d88;
+  --paper:#f4f4f1; --card:#ffffff; --line:#e2e2dc; --line-2:#c9c9c1;
+  --sage:#c9d9a3; --sage-2:#e8efd8; --sage-ink:#3d5117;
+  --red:#b23a1f; --red-bg:#fbeceb;
+  --amber:#8a5a06; --amber-bg:#fcf1dc;
+  --ok:#2f6b3f;
+  --r:6px;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font:400 14px/1.5 'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
+input,select,textarea{font:inherit;color:inherit}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.eyebrow{font-family:'Archivo';font-weight:600;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+:focus-visible{outline:2px solid var(--ink);outline-offset:1px}
+.hide{display:none!important}
+
+.top{background:var(--ink);color:#fff;padding:10px 18px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:60}
+.brand{font-family:'Archivo';font-weight:700;font-size:15px;letter-spacing:.1em}
+.brand span{color:var(--sage)}
+.top .who{margin-left:auto;display:flex;align-items:center;gap:10px;font-size:13px;color:#c9cbcf}
+.chip{border:1px solid #3a3f47;border-radius:100px;padding:3px 10px;font-size:12px}
+.btn{border:1px solid var(--line-2);background:var(--card);border-radius:var(--r);padding:7px 12px;font-size:13px;font-weight:500;transition:.12s}
+.btn:hover{border-color:var(--ink-3);background:#fafaf8}
+.btn:active{transform:scale(.98)}
+.btn-dark{background:var(--ink);color:#fff;border-color:var(--ink)}
+.btn-dark:hover{background:#2a2e34}
+.btn-sm{padding:4px 9px;font-size:12px}
+
+.wrap{max-width:none;margin:0 auto;padding:26px 14px 70px}
+.pick-h{font-family:'Archivo';font-weight:700;font-size:26px;letter-spacing:-.02em;margin:22px 0 4px}
+.pick-s{color:var(--ink-3);margin-bottom:22px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px;max-width:1000px}
+.card-pick{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 15px;text-align:left;transition:.12s}
+.card-pick:hover{border-color:var(--ink);transform:translateY(-1px)}
+.card-pick .nm{font-family:'Archivo';font-weight:600;font-size:15px}
+.card-pick .mt{font-size:12px;color:var(--ink-3);margin-top:2px}
+.card-pick.adm{background:var(--ink);border-color:var(--ink);color:#fff;grid-column:1/-1}
+.card-pick.adm .mt{color:#a4a9b1}
+.card-pick.adm:hover{background:#23272d}
+.badge{display:inline-block;background:var(--sage);color:var(--sage-ink);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:3px;margin-bottom:7px;font-family:'Archivo'}
+
+.bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:18px 0 14px}
+.bar h1{font-family:'Archivo';font-weight:700;font-size:22px;letter-spacing:-.02em}
+.bar .sub{font-size:12px;color:var(--ink-3)}
+.bar .sp{margin-left:auto;display:flex;gap:7px;align-items:center}
+.sync{font-size:12px;color:var(--ink-3);display:flex;align-items:center;gap:5px}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--ok)}
+.dot.saving{background:var(--amber);animation:p .8s infinite}
+.dot.err{background:var(--red)}
+@keyframes p{50%{opacity:.25}}
+
+.tabs{display:flex;gap:2px;background:#e8e8e2;border-radius:8px;padding:3px;margin-bottom:14px;width:fit-content;flex-wrap:wrap}
+.tabs button{padding:6px 16px;border-radius:6px;font-size:13px;font-weight:500;color:var(--ink-2)}
+.tabs button:hover{color:var(--ink)}
+.tabs button.on{background:var(--card);color:var(--ink);font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.07)}
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-bottom:14px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:9px 12px}
+.stat .k{font-size:11px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.06em;font-family:'Archivo';font-weight:600}
+.stat .v{font-family:'Archivo';font-weight:700;font-size:21px;font-variant-numeric:tabular-nums;line-height:1.2}
+
+.panel{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px;margin-bottom:14px}
+.panel input,.panel select{height:34px;border:1px solid var(--line-2);border-radius:var(--r);padding:0 9px;font-size:13px;background:#fff;width:100%}
+.panel input:focus,.panel select:focus{outline:none;border-color:var(--ink)}
+.panel label{display:block;font-family:'Archivo';font-weight:600;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:3px}
+.irow{display:grid;grid-template-columns:100px minmax(0,2fr) 120px 120px 80px 115px 115px 115px 100px;gap:7px;align-items:end}
+@media(max-width:1300px){.irow{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:640px){.irow{grid-template-columns:repeat(2,1fr)}}
+.drow{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:12px}
+@media(max-width:760px){.drow{grid-template-columns:1fr}}
+textarea.bulk{width:100%;min-height:96px;border:1px solid var(--line-2);border-radius:var(--r);padding:8px 10px;
+  font-family:var(--mono);font-size:12px;line-height:1.6;resize:vertical;background:#fff}
+textarea.bulk:focus{outline:none;border-color:var(--ink)}
+.dside{display:flex;flex-direction:column;gap:6px;justify-content:flex-end}
+.hint{font-size:11px;color:var(--ink-3);line-height:1.45;margin-top:2px}
+.lote{display:flex;align-items:center;gap:8px;background:var(--ink);color:#fff;border-radius:var(--r);padding:7px 10px;margin-top:10px;font-size:13px;flex-wrap:wrap}
+.lote b{font-family:'Archivo';font-size:12px}
+.lote select{height:28px;width:auto;border:1px solid #3a3f47;background:#23272d;color:#fff;border-radius:var(--r);padding:0 8px;font-size:12px}
+.lote .btn{border-color:#3a3f47;background:transparent;color:#fff}
+.lote .btn:hover{background:#2a2e34}
+.lote .btn-dark{background:var(--sage);color:var(--sage-ink);border-color:var(--sage);font-weight:600}
+.lote .btn-dark:hover{background:#d6e3b7}
+
+.tw{background:var(--card);border:1px solid var(--line);border-radius:8px;overflow:auto;max-height:74vh}
+table{border-collapse:separate;border-spacing:0;width:100%;font-size:13px}
+th,td{white-space:nowrap}
+thead th{position:sticky;top:0;z-index:30;background:var(--card);border-bottom:1px solid var(--line-2);padding:0;vertical-align:bottom}
+.colhead{background:var(--sage-2);border-left:1px solid var(--line);padding:7px 6px;min-width:96px;max-width:96px;white-space:normal}
+.colhead .cd{font-family:var(--mono);font-weight:700;font-size:12px;color:var(--sage-ink)}
+.colhead .cn{font-size:10px;line-height:1.3;color:var(--sage-ink);opacity:.85;height:39px;overflow:hidden;margin:2px 0}
+.colhead .ct{font-family:'Archivo';font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--sage-ink);opacity:.6}
+.colhead .cq{font-family:var(--mono);font-size:11px;color:var(--sage-ink);border-top:1px dashed rgba(61,81,23,.3);margin-top:3px;padding-top:2px}
+.colhead .del{float:right;color:var(--sage-ink);opacity:.45;font-size:13px;line-height:1}
+.colhead .del:hover{opacity:1;color:var(--red)}
+.colhead .tgl{display:block;width:100%;margin-top:5px;padding:3px 0;border-radius:3px;font-family:'Archivo';
+  font-weight:600;font-size:9px;letter-spacing:.08em;text-transform:uppercase;
+  background:rgba(61,81,23,.12);color:var(--sage-ink);transition:.12s}
+.colhead .tgl:hover{background:var(--sage-ink);color:#fff}
+/* card desativado: amarelo, analista não vê */
+.colhead.off{background:var(--amber-bg)}
+.colhead.off .cd,.colhead.off .cn,.colhead.off .ct,.colhead.off .cq{color:var(--amber)}
+.colhead.off .cq{border-top-color:rgba(138,90,6,.3)}
+.colhead.off .del{color:var(--amber)}
+.colhead.off .tgl{background:rgba(138,90,6,.15);color:var(--amber)}
+.colhead.off .tgl:hover{background:var(--ok);color:#fff}
+tbody td.coff{background:#fdfaf3}
+tbody td.coff input.q{color:var(--amber)}
+tbody td.coff input.q.zero{color:#d8c9a4}
+.pdvcol{position:sticky;left:0;z-index:40;background:var(--card);border-right:1px solid var(--line-2);text-align:left;padding:8px 10px;min-width:320px;max-width:320px;font-family:'Archivo';font-weight:600;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.pdvcol .fil{display:inline-block;width:44px}
+thead .pdvcol{z-index:50}
+tr.saldo th{background:#fbfbf9;border-bottom:1px solid var(--line-2);padding:5px 6px;font-family:var(--mono);font-size:11px;font-weight:500;text-align:center;border-left:1px solid var(--line);top:auto;z-index:29}
+tr.saldo th.pdvcol{background:#fbfbf9;text-align:left;font-family:'Archivo';font-size:10px}
+tr.saldo th.neg{background:var(--red-bg);color:var(--red);font-weight:700}
+tr.saldo th.zero{color:var(--ink-3)}
+tr.grp td{background:var(--ink);color:#fff;padding:5px 10px;font-family:'Archivo';font-weight:600;font-size:10px;letter-spacing:.14em;text-transform:uppercase;position:sticky;left:0}
+tbody td{border-bottom:1px solid var(--line);border-left:1px solid var(--line);padding:0;text-align:center}
+tbody td.pdv{border-left:none;text-align:left;padding:0;position:sticky;left:0;background:var(--card);border-right:1px solid var(--line-2);min-width:320px;max-width:320px}
+tbody td.pdv .in{display:flex;align-items:stretch}
+.pdv .cod{flex:0 0 54px;font-family:var(--mono);font-size:11px;color:var(--ink-2);background:#fbfbf9;border-right:1px solid var(--line);padding:6px 8px 6px 10px}
+.pdv .nm{flex:1;min-width:0;padding:6px 10px;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+tbody tr:hover td.pdv .nm{background:#fafaf8}
+tbody tr.done td.pdv .nm{color:var(--ink-3)}
+tbody tr.done td.pdv .cod{color:#a8aeb8}
+/* vende muito */
+.pdv .nm.top{font-weight:700}
+.pdv .nm.top::after{content:'';display:inline-block;width:5px;height:5px;border-radius:50%;background:#639922;margin-left:6px;vertical-align:middle}
+input[type=number]{-moz-appearance:textfield;appearance:textfield}
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+input.q{width:100%;height:30px;border:none;background:transparent;text-align:center;font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:13px;font-weight:500;padding:0}
+input.q:hover{background:#f6f6f3}
+input.q:focus{outline:none;background:#fff;box-shadow:inset 0 0 0 2px var(--ink)}
+input.q.zero{color:#c2c2ba}
+input.q.over{background:var(--red-bg);color:var(--red)}
+td.tot{background:#fbfbf9;font-family:var(--mono);font-weight:700;font-variant-numeric:tabular-nums;padding:6px}
+td.act{border-left:1px solid var(--line);padding:3px 6px}
+.send{border:1px solid var(--line-2);background:#fff;border-radius:100px;padding:3px 10px;font-size:11px;font-weight:600;font-family:'Archivo';letter-spacing:.04em;white-space:nowrap}
+.send:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+.send.off{opacity:.3;pointer-events:none}
+tfoot td{position:sticky;bottom:0;background:#f0f0ec;border-top:1px solid var(--line-2);font-family:var(--mono);font-weight:700;font-variant-numeric:tabular-nums;padding:7px 6px;text-align:center;z-index:25}
+tfoot td.pdv{text-align:left;font-family:'Archivo';font-size:11px;letter-spacing:.08em;text-transform:uppercase;left:0;z-index:35;background:#f0f0ec}
+
+/* cadastro de PDV */
+select.rp{width:100%;height:28px;border:1px solid transparent;border-radius:var(--r);background:transparent;font-size:12px;padding:0 4px}
+select.rp:hover{border-color:var(--line-2);background:#fff}
+tr.orf select.rp{border-color:#e6cf9c;background:var(--amber-bg);color:var(--amber);font-weight:500}
+tr.orf .mono{color:var(--amber)}
+input.ck{width:15px;height:15px;accent-color:var(--ink);cursor:pointer}
+
+/* histórico */
+.hcol{background:var(--ink);color:#fff;border-left:1px solid #2f343b;padding:7px 6px;font-family:'Archivo';font-weight:600;font-size:9px;letter-spacing:.08em;text-transform:uppercase;white-space:normal;line-height:1.25;vertical-align:middle;text-align:center}
+.hcol.auto{background:#23272d;color:var(--sage)}
+.hcol i{display:block;font-style:normal;font-size:8px;opacity:.5;letter-spacing:.04em;margin-top:2px}
+#tw-hist{table-layout:fixed;min-width:1596px}
+#tw-hist td{padding:0;text-align:center;font-size:12px}
+#tw-hist .hcol{padding:7px 3px;font-size:8px;letter-spacing:.05em}
+#tw-hist .hcol i{font-size:7px}
+tr.rem td.hauto,tr.rem td.hprod{background:#f3f2ef}
+.remtag{display:block;font-style:normal;font-size:8px;font-family:'Archivo';font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-top:1px}
+td.hauto{background:#fafaf8;font-family:var(--mono);font-variant-numeric:tabular-nums;padding:5px 4px;color:var(--ink-2);overflow:hidden;text-overflow:ellipsis}
+td.hprod{text-align:left;padding:5px 10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;background:#fafaf8;color:var(--ink)}
+.he{width:100%;height:28px;border:1px solid transparent;background:transparent;font-size:12px;padding:0 4px;border-radius:3px;text-align:center}
+select.he{text-align:left;padding:0 17px 0 4px}
+input.he[type=number]{text-align:center;padding:0 2px}
+.hdel{width:22px;height:22px;border-radius:4px;color:var(--ink-3);font-size:14px;line-height:1}
+.hdel:hover{background:var(--red-bg);color:var(--red)}
+.he:hover{border-color:var(--line-2);background:#fff}
+.he:focus{outline:none;border-color:var(--ink);background:#fff}
+select.he{cursor:pointer}
+input.he[type=date]{font-family:var(--mono);font-size:11px}
+input.hobs{text-align:left}
+.he.sim{color:var(--ok);font-weight:600}
+.he.nao{color:var(--ink-3)}
+td.bug .he{background:var(--red-bg);color:var(--red);font-weight:700;border-color:#e8b9b0}
+tr.inat td.hauto,tr.inat td.hprod{opacity:.5}
+.hbar{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+.hbar select,.hbar input{height:30px;border:1px solid var(--line-2);border-radius:var(--r);padding:0 8px;font-size:12px;background:#fff}
+.hbar input{min-width:190px}
+
+.sw{width:32px;height:18px;border-radius:100px;background:var(--line-2);position:relative;transition:.15s;vertical-align:middle}
+.sw i{position:absolute;left:2px;top:2px;width:14px;height:14px;border-radius:50%;background:#fff;transition:.15s}
+.sw.on{background:#639922}
+.sw.on i{left:16px}
+.sw:hover{filter:brightness(.94)}
+tr.destq td.bold{font-weight:700}
+tr.destq{background:#f7faf1}
+.empty{padding:50px 20px;text-align:center;color:var(--ink-3)}
+.empty b{display:block;font-family:'Archivo';font-size:16px;color:var(--ink);margin-bottom:5px}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:9px 14px;border-radius:100px;font-size:13px;display:flex;align-items:center;gap:12px;z-index:99;box-shadow:0 6px 20px rgba(0,0,0,.18)}
+.toast button{color:var(--sage);font-weight:600;font-size:12px;text-decoration:underline}
+.banner{background:var(--amber-bg);border:1px solid #e6cf9c;color:var(--amber);border-radius:var(--r);padding:8px 12px;font-size:12px;margin-bottom:12px}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="brand">VX<span>·</span>CASE <span style="opacity:.4">/</span> DISTRIBUIÇÃO</div>
+  <div class="who" id="who"></div>
+</header>
+
+<main class="wrap">
+  <div id="banner"></div>
+
+  <section id="s-pick">
+    <div class="eyebrow">Acesso</div>
+    <h2 class="pick-h">Quem é você?</h2>
+    <p class="pick-s">Selecione seu acesso para ver os pontos de venda.</p>
+    <div class="grid" id="pick-grid"></div>
+  </section>
+
+  <section id="s-tab" class="hide">
+    <div class="bar">
+      <div>
+        <div class="eyebrow" id="t-eyebrow"></div>
+        <h1 id="t-title"></h1>
+        <div class="sub" id="t-sub"></div>
+      </div>
+      <div class="sp">
+        <div class="sync"><span class="dot" id="dot"></span><span id="sync-txt">Sincronizado</span></div>
+        <button class="btn btn-sm" id="b-toggle"></button>
+        <button class="btn btn-sm" id="b-csv">Exportar CSV</button>
+        <button class="btn btn-sm btn-dark" id="b-back">Trocar acesso</button>
+      </div>
+    </div>
+
+    <div class="tabs" id="tabs"></div>
+    <div class="stats" id="stats"></div>
+
+    <!-- cadastrar item que chegou -->
+    <div class="panel hide" id="newitem">
+      <div class="eyebrow" style="margin-bottom:8px">Cadastrar item que chegou</div>
+      <div class="irow">
+        <div><label for="i-cod">Código</label><input id="i-cod" list="cat-list" autocomplete="off" placeholder="28849" /></div>
+        <div><label for="i-desc">Produto</label><input id="i-desc" placeholder="digite o código e o nome vem sozinho" /></div>
+        <div><label for="i-forn">Fornecedor</label><select id="i-forn"></select></div>
+        <div><label for="i-status">Status</label><select id="i-status"></select></div>
+        <div><label for="i-qtd">Qntd total</label><input id="i-qtd" type="number" min="0" placeholder="3000" /></div>
+        <div><label for="i-cheg">Data chegada</label><input id="i-cheg" type="date" /></div>
+        <div><label for="i-lib">Data liberação</label><input id="i-lib" type="date" /></div>
+        <div><label for="i-envio">Envio</label><select id="i-envio">
+          <option value="0">DESATIVADO</option><option value="1">ATIVO</option></select></div>
+        <div><button class="btn btn-dark" id="b-add" style="width:100%;height:34px">Adicionar</button></div>
+      </div>
+      <p class="hint" id="cat-hint"></p>
+      <datalist id="cat-list"></datalist>
+    </div>
+
+    <!-- destinos -->
+    <div class="panel hide" id="destinos">
+      <div class="eyebrow" style="margin-bottom:7px">Cadastrar destinos em massa</div>
+      <div class="drow">
+        <textarea class="bulk" id="d-bulk" rows="4" placeholder="421&#9;MANAUS MANAUARA LOJA 90&#10;245&#9;MANAUS MANAUARA QUIOSQUE 758&#10;488&#9;MANAUS AMAZONAS QUIOSQUE A39"></textarea>
+        <div class="dside">
+          <div><label for="d-resp">Responsável destes</label><select id="d-resp"></select></div>
+          <button class="btn btn-dark" id="b-dadd" style="height:34px">Adicionar destinos</button>
+          <p class="hint">Um por linha, código e nome. Cole direto das colunas A e B da planilha. Códigos repetidos são ignorados.</p>
+        </div>
+      </div>
+      <div class="lote hide" id="lote">
+        <b><span id="lote-n">0</span> selecionados</b><span>→</span>
+        <select id="d-lote"></select>
+        <button class="btn btn-sm btn-dark" id="b-lote">Aplicar</button>
+        <span style="opacity:.35">|</span>
+        <button class="btn btn-sm" id="b-dq1">Marcar vende muito</button>
+        <button class="btn btn-sm" id="b-dq0">Desmarcar</button>
+        <button class="btn btn-sm" id="b-lote-x" style="margin-left:auto">Limpar seleção</button>
+      </div>
+    </div>
+
+    <!-- catálogo -->
+    <div class="panel hide" id="catalogo">
+      <div class="eyebrow" style="margin-bottom:7px">Cadastrar catálogo em massa</div>
+      <div class="drow">
+        <textarea class="bulk" id="c-bulk" rows="4" placeholder="26284&#9;Película Survivor Anti Impacto VX Case Galaxy S23 Ultra - Transparente&#10;27414&#9;Mag Selfie VX Case - Preto&#10;4445&#9;Tripod VX Case para Smartphones e Câmeras - Preto"></textarea>
+        <div class="dside">
+          <button class="btn btn-dark" id="b-cadd" style="height:34px">Adicionar ao catálogo</button>
+          <p class="hint">Um por linha, código e descrição. Cole as colunas CÓDIGO e PRODUTO da sua planilha. Código repetido atualiza a descrição.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- filtros do histórico -->
+    <div class="hbar hide" id="hbar">
+      <input id="h-busca" placeholder="Buscar código ou produto…" />
+      <select id="h-ano"></select>
+      <select id="h-forn"></select>
+      <select id="h-status"></select>
+      <select id="h-flag">
+        <option value="">Todos</option>
+        <option value="bug">Só com bug</option>
+        <option value="naolib">Não liberados</option>
+        <option value="naoprec">Não precificados</option>
+        <option value="inat">Inativos</option>
+        <option value="removido">Fora da distribuição</option>
+      </select>
+      <button class="btn btn-sm" id="h-limpa">Limpar</button>
+    </div>
+
+    <div class="tw" id="tw"></div>
+  </section>
+</main>
+
+<script>
+/* ============================================================
+   CONFIG
+   ============================================================ */
+const SUPABASE_URL = 'https://fevhyllvfhvzzfhwyjuk.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZldmh5bGx2Zmh2enpmaHd5anVrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg4NzEyMTcsImV4cCI6MjA5NDQ0NzIxN30.GJRgEKW1bVWX1957_bKCTO6aVmR_rXWRCmo9-ZJDPiE';
+const ADMIN_PIN    = '';
+const POLL_MS      = 15000;
+
+const ANALISTAS   = ['Amanda Menezes','Felipe Santana','Raquel França','Suiane Lopes'];
+const SEM_RESP    = 'Sem responsável';
+const FORNECEDORES= ['IMPORTADO','NACIONAL'];
+const STATUSES    = ['NOVO','REPOSIÇÃO','SUBSTITUTO'];
+const MESES       = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+
+const DEMO = SUPABASE_KEY === 'COLE_AQUI';
+const sb = DEMO ? null : supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+/* ---------- estado ---------- */
+let S = { pdvs:[], itens:[], cat:[], dist:new Map(), user:null, admin:false,
+          showDone:false, view:'dist', sel:new Set(), hf:{busca:'',ano:'',forn:'',status:'',flag:''} };
+const key=(p,i)=>p+':'+i;
+const qty=(p,i)=>S.dist.get(key(p,i)) ?? 0;
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let pending=new Map(), pollTimer=null, saveTimer=null;
+
+/* ---------- demo ---------- */
+const demo = {
+  pdvs:[[421,'MANAUS MANAUARA LOJA 90','Raquel França'],[245,'MANAUS MANAUARA QUIOSQUE 758','Raquel França'],
+        [488,'MANAUS AMAZONAS QUIOSQUE A39','Raquel França'],[294,'NATAL MIDWAY LOJA 254','Raquel França'],
+        [86,'FORTALEZA RIOMAR LOJA 1173','Raquel França'],[451,'FORTALEZA RIOMAR LOJA 2062','Raquel França'],
+        [225,'RECIFE RIOMAR LOJA 1061','Raquel França'],[235,'RECIFE RIOMAR FASHION LOJA 1152','Raquel França'],
+        [394,'RECIFE RIOMAR QUIOSQUE 211','Raquel França'],[450,'RECIFE RIOMAR QUIOSQUE 101','Raquel França'],
+        [281,'BH SHOPPING LOJA 08','Felipe Santana'],[251,'BH SHOPPING QUIOSQUE MA01','Felipe Santana'],
+        [260,'BH SHOPPING FASHION LOJA 26A','Felipe Santana'],[309,'BH DEL REY LOJA 44','Felipe Santana'],
+        [512,'SALVADOR SHOPPING LOJA 210','Suiane Lopes'],[518,'SALVADOR BARRA QUIOSQUE 07','Suiane Lopes'],
+        [530,'SALVADOR PARALELA LOJA 118','Suiane Lopes'],[601,'SP MORUMBI LOJA 305','Amanda Menezes'],
+        [604,'SP IBIRAPUERA QUIOSQUE 12','Amanda Menezes'],[712,'CURITIBA PALLADIUM LOJA 88',null]],
+  cat:[['26284','Película Survivor Anti Impacto VX Case Galaxy S23 Ultra - Transparente'],
+       ['27414','Mag Selfie VX Case - Preto'],['4445','Tripod VX Case para Smartphones e Câmeras - Preto'],
+       ['27542','Capa Eternum Magsafe VX Case iPhone 11 - Transparente'],
+       ['27464','Capa Icon Case Magsafe VX Case iPhone 15 - Preta'],
+       ['27747','Capa Jet Black VX Case Galaxy S25 - Transparente com Bordas Pretas'],
+       ['28849','Cabo Magnetic Dragon VX Case Type-C / Type-C PD 60W - Laranja'],
+       ['28850','Cabo Magnetic Dragon VX Case Type-C / Type-C PD 60W - Azul Profundo'],
+       ['28427','Capa TPU Anti Shock Galaxy A07 4G - Transparente'],
+       ['29026','Capa TPU Anti Shock Motorola Signature - Transparente'],
+       ['29217','Capa Titanium VX Case Magsafe Fundo Fosco iPhone 17 Pro - Laranja Claro'],
+       ['28510','Capa Dark Glitter Magsafe VX Case iPhone 15 - Preto Translúcido'],
+       ['28513','Capa Dark Glitter Magsafe VX Case iPhone 16 - Preto Translúcido'],
+       ['28517','Capa Dark Glitter Magsafe VX Case iPhone 17 - Preto Translúcido']],
+  //     cod      forn        status       qtd   chegada       liberacao     lib  ativoP prec  bug  obs                          envio
+  itens:[['28849','IMPORTADO','NOVO',      3000,'2026-01-11','2026-01-17',true,true,true,false,'',                          true],
+         ['28850','IMPORTADO','NOVO',      3000,'2026-01-11','2026-01-17',true,true,true,true,'MANUAL ERRADO',             true],
+         ['28427','NACIONAL', 'REPOSIÇÃO',  147,'2026-01-14','2026-01-22',true,true,false,false,'',                         true],
+         ['29026','NACIONAL', 'NOVO',       282,'2026-01-14','2026-01-17',true,true,false,false,'',                         false],
+         ['29217','IMPORTADO','SUBSTITUTO', 800,'2026-01-16','2026-01-17',true,true,true,false,'SUBSTITUTO DO 28148',       true],
+         ['28510','IMPORTADO','REPOSIÇÃO',  500,'2026-01-16','2026-01-17',true,true,true,false,'',                          true],
+         ['28513','IMPORTADO','REPOSIÇÃO',  500,'2026-01-20','2026-01-21',true,true,true,false,'',                          true],
+         ['28517','IMPORTADO','REPOSIÇÃO',  500,'2025-12-12','2026-01-21',false,true,false,true,'EMBALAGEM ERRADA / TROCA', false]],
+  seed:[[1,1,2],[2,1,1],[3,1,1],[4,6,2],[8,6,3],[8,7,2],[11,1,3],[11,6,3],[15,3,4],[18,2,5]]
+};
+function loadDemo(){
+  S.pdvs = demo.pdvs.map((p,ix)=>({id:ix+1,codigo:String(p[0]),nome:p[1],analista:p[2],ordem:ix,ativo:true,
+    destaque:[421,225,281,512,601].includes(p[0])}));
+  S.cat  = demo.cat.map(c=>({codigo:c[0],descricao:c[1]}));
+  S.itens= demo.itens.map((i,ix)=>({id:ix+1,codigo:i[0],descricao:descDe(i[0]),fornecedor:i[1],status:i[2],
+      qtd_total:i[3],data_chegada:i[4],data_liberacao:i[5],liberado:i[6],ativo_prod:i[7],
+      precificado:i[8],bug:i[9],observacao:i[10],envio_ativo:i[11],ativo:true}));
+  S.dist = new Map(demo.seed.map(s=>[key(s[0],s[1]),s[2]]));
+}
+function descDe(cod){ return (demo.cat.find(c=>c[0]===cod)||[,''])[1]; }
+
+/* ---------- carga ---------- */
+async function load(){
+  if(DEMO){ if(!S.pdvs.length) loadDemo(); return; }
+  const [p,i,d,c] = await Promise.all([
+    sb.from('pdvs').select('*').eq('ativo',true).order('ordem'),
+    sb.from('itens').select('*').order('data_chegada',{ascending:false}).order('id'),
+    sb.from('distribuicao').select('pdv_id,item_id,quantidade'),
+    sb.from('catalogo').select('*').order('codigo')
+  ]);
+  const err=p.error||i.error||d.error||c.error;
+  if(err){ setSync('err','Erro ao carregar'); throw err; }
+  S.pdvs=p.data; S.itens=i.data; S.cat=c.data;
+  S.dist=new Map(d.data.filter(r=>r.quantidade).map(r=>[key(r.pdv_id,r.item_id),r.quantidade]));
+}
+
+/* ---------- salvar quantidades ---------- */
+function setSync(state,txt){ $('dot').className='dot'+(state?' '+state:''); $('sync-txt').textContent=txt; }
+function stamp(){ return 'Salvo '+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}); }
+function queue(pdv,item,q){
+  if(q) S.dist.set(key(pdv,item),q); else S.dist.delete(key(pdv,item));
+  pending.set(key(pdv,item),{pdv_id:pdv,item_id:item,quantidade:q});
+  setSync('saving','Salvando…');
+  clearTimeout(saveTimer); saveTimer=setTimeout(flush,700);
+}
+async function flush(){
+  if(!pending.size) return;
+  const rows=[...pending.values()].map(r=>({...r,atualizado_em:new Date().toISOString(),atualizado_por:S.user}));
+  pending.clear();
+  if(DEMO){ setSync('','Modo demo · não salvo'); return; }
+  const {error}=await sb.from('distribuicao').upsert(rows,{onConflict:'pdv_id,item_id'});
+  setSync(error?'err':'',error?'Falha ao salvar':stamp());
+}
+async function patchItem(id,patch){
+  Object.assign(S.itens.find(i=>i.id===id),patch);
+  if(DEMO){ setSync('','Modo demo · não salvo'); return; }
+  setSync('saving','Salvando…');
+  const {error}=await sb.from('itens').update(patch).eq('id',id);
+  setSync(error?'err':'',error?'Falha ao salvar':stamp());
+}
+
+/* ---------- tela 1 ---------- */
+function renderPick(){
+  const cnt={}; S.pdvs.forEach(p=>{ if(p.analista) cnt[p.analista]=(cnt[p.analista]||0)+1; });
+  const orfaos=S.pdvs.filter(p=>!p.analista).length;
+  $('pick-grid').innerHTML =
+    `<button class="card-pick adm" data-a="__ADMIN__">
+       <div class="badge">Admin</div><div class="nm">Distribuição geral</div>
+       <div class="mt">${S.pdvs.length} pontos · ${S.itens.filter(i=>i.ativo&&i.envio_ativo).length} de ${S.itens.filter(i=>i.ativo).length} itens ativos pra envio · ${S.cat.length} no catálogo${orfaos?` · <b style="color:#e6b800">${orfaos} sem responsável</b>`:''}</div>
+     </button>` +
+    ANALISTAS.map(n=>`<button class="card-pick" data-a="${esc(n)}">
+       <div class="nm">${esc(n)}</div>
+       <div class="mt">${cnt[n]?`${cnt[n]} ponto${cnt[n]>1?'s':''}`:'nenhum ponto atribuído'}</div></button>`).join('');
+  $('pick-grid').querySelectorAll('button').forEach(b=>b.onclick=()=>enter(b.dataset.a));
+}
+function enter(a){
+  if(a==='__ADMIN__'){
+    if(ADMIN_PIN && prompt('PIN do admin:')!==ADMIN_PIN){ alert('PIN incorreto.'); return; }
+    S.admin=true; S.user='Distribuição geral';
+  } else {
+    if(!ANALISTAS.includes(a)){ sessionStorage.removeItem('vx_user'); return; }
+    S.admin=false; S.user=a;
+  }
+  S.view='dist'; S.sel.clear();
+  sessionStorage.setItem('vx_user',a);
+  $('s-pick').classList.add('hide'); $('s-tab').classList.remove('hide');
+  $('who').innerHTML=`<span class="chip">${S.admin?'Admin':'Analista'}</span> ${esc(S.user)}`;
+  const abas = S.admin
+    ? [['dist','Distribuição'],['pdvs','Pontos de venda'],['cat','Catálogo'],['hist','Histórico']]
+    : [['dist','Distribuição'],['hist','Histórico']];
+  $('tabs').innerHTML=abas.map(a=>`<button data-v="${a[0]}">${a[1]}</button>`).join('');
+  $('tabs').querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>{ S.view=b.dataset.v; S.sel.clear(); render(); });
+  render(); startPoll();
+}
+function back(){
+  stopPoll(); flush(); sessionStorage.removeItem('vx_user');
+  S.user=null; S.admin=false; $('who').innerHTML='';
+  $('s-tab').classList.add('hide'); $('s-pick').classList.remove('hide');
+  renderPick();
+}
+
+/* ---------- helpers ---------- */
+// envio_ativo = o analista pode enviar. NÃO confundir com ativo_prod (histórico),
+// que é registro de o produto estar ativo pra venda no outro sistema.
+// admin vê tudo (ativo e desativado); analista só vê o que está ativo pra envio
+// S.itens guarda TUDO, inclusive removido (ativo=false) — o histórico nunca perde linha.
+// A grade de distribuição só enxerga o que está ativo.
+const itensView = () => S.itens.filter(i=>i.ativo && (S.admin || i.envio_ativo));
+const rowTotal   = pdvId  => itensView().reduce((s,i)=>s+qty(pdvId,i.id),0);
+const enviada    = itemId => S.pdvs.reduce((s,p)=>s+qty(p.id,itemId),0);
+const tipoDe     = i => [i.status,i.fornecedor].filter(Boolean).join(' ');
+function ordPdvs(list){
+  const ix=a=>a?ANALISTAS.indexOf(a):99;
+  return [...list].sort((a,b)=> ix(a.analista)-ix(b.analista) || (a.ordem||0)-(b.ordem||0)
+    || String(a.codigo).localeCompare(String(b.codigo),'pt-BR',{numeric:true}));
+}
+function meusPdvs(){ return ordPdvs(S.admin ? S.pdvs : S.pdvs.filter(p=>p.analista===S.user)); }
+function visiveis(){ const l=meusPdvs(); return S.showDone?l:l.filter(p=>S.admin||rowTotal(p.id)>0); }
+
+/* ---------- roteador ---------- */
+function render(){
+  $('tabs').querySelectorAll('[data-v]').forEach(b=>b.classList.toggle('on',b.dataset.v===S.view));
+  const v=S.view;
+  $('newitem').classList.toggle('hide',!(S.admin&&v==='dist'));
+  $('destinos').classList.toggle('hide',!(S.admin&&v==='pdvs'));
+  $('catalogo').classList.toggle('hide',!(S.admin&&v==='cat'));
+  $('hbar').classList.toggle('hide',v!=='hist');
+  $('stats').classList.toggle('hide',v!=='dist');
+  $('b-toggle').classList.toggle('hide',v!=='dist');
+  $('b-csv').classList.toggle('hide',v==='cat');
+  $('tw').id='tw';
+  if(v==='pdvs') return renderPdvs();
+  if(v==='cat')  return renderCat();
+  if(v==='hist') return renderHist();
+  renderDist();
+}
+
+/* ============================================================
+   DISTRIBUIÇÃO
+   ============================================================ */
+function renderDist(){
+  const pdvs=visiveis(), all=meusPdvs(), itens=itensView();
+  $('t-eyebrow').textContent=S.admin?'Painel do admin':'Meus pontos de venda';
+  $('t-title').textContent=S.user;
+  const pend=all.filter(p=>rowTotal(p.id)>0).length;
+  $('t-sub').textContent=`${all.length} pontos · ${pend} com envio pendente`;
+  $('b-toggle').textContent=S.showDone?'Ocultar zerados':'Mostrar zerados';
+
+  const pecas=all.reduce((s,p)=>s+rowTotal(p.id),0);
+  const comEnvio=itens.filter(i=>all.some(p=>qty(p.id,i.id)>0)).length;
+  const off=S.itens.filter(i=>i.ativo && !i.envio_ativo).length;
+  $('stats').innerHTML=[['Itens com envio',comEnvio],['Peças a enviar',pecas],['PDVs pendentes',pend],
+    [S.admin?'Desativados':'Meus PDVs',S.admin?off:all.length]]
+    .map(s=>`<div class="stat"><div class="k">${s[0]}</div><div class="v">${s[1].toLocaleString('pt-BR')}</div></div>`).join('');
+
+  if(!S.pdvs.length) return vazio('Nenhum destino cadastrado', S.admin?'Abra <b>Pontos de venda</b> e cole a sua lista.':'A coordenação ainda não cadastrou os pontos.');
+  if(!itens.length) return vazio(S.admin?'Nenhum item cadastrado':'Nada liberado pra envio',
+    S.admin?'Cadastre o primeiro item acima para abrir as colunas.':'Assim que a coordenação ativar um item, ele aparece aqui com as quantidades.');
+  if(!pdvs.length) return vazio(S.admin?'Nada por aqui':'Tudo enviado', S.admin?'Nenhum ponto cadastrado.':'Nenhum ponto seu tem quantidade pendente.');
+
+  let h='<table><thead><tr><th class="pdvcol"><span class="fil">Filial</span>Ponto de venda</th>';
+  itens.forEach(i=>{
+    h+=`<th class="colhead ${i.envio_ativo?'':'off'}"><div class="cd">${esc(i.codigo)}${S.admin?`<button class="del" data-del="${i.id}" title="Remover item">×</button>`:''}</div>
+        <div class="cn">${esc(i.descricao)}</div><div class="ct">${esc(tipoDe(i))}</div>
+        <div class="cq">total ${(i.qtd_total||0).toLocaleString('pt-BR')}</div>
+        ${S.admin?`<button class="tgl" data-tgl="${i.id}">${i.envio_ativo?'Desativar':'Ativar'}</button>`:''}</th>`;
+  });
+  h+='<th class="colhead" style="background:#f0f0ec;min-width:64px;max-width:64px"><div class="ct">Total</div></th>';
+  if(!S.admin) h+='<th class="colhead" style="background:#f0f0ec;min-width:98px;max-width:98px"><div class="ct">Ação</div></th>';
+  h+='</tr>';
+  if(S.admin){
+    h+='<tr class="saldo"><th class="pdvcol"><span class="fil"></span>Saldo a distribuir</th>';
+    itens.forEach(i=>{ const s=(i.qtd_total||0)-enviada(i.id);
+      h+=`<th class="${s<0?'neg':(s===0?'zero':'')}" data-saldo="${i.id}">${s.toLocaleString('pt-BR')}</th>`; });
+    h+='<th></th></tr>';
+  }
+  h+='</thead><tbody>';
+  let g=null;
+  pdvs.forEach(p=>{
+    if(S.admin && p.analista!==g){ g=p.analista;
+      h+=`<tr class="grp"><td colspan="${itens.length+2}">${esc(g||SEM_RESP+' — não aparece pra ninguém')}</td></tr>`; }
+    const t=rowTotal(p.id);
+    h+=`<tr data-p="${p.id}" class="${t?'':'done'}"><td class="pdv" title="${esc(p.nome)}"><div class="in"><span class="cod">${esc(p.codigo)}</span><span class="nm ${p.destaque?'top':''}">${esc(p.nome)}</span></div></td>`;
+    itens.forEach(i=>{ const v=qty(p.id,i.id);
+      h+=`<td class="${i.envio_ativo?'':'coff'}"><input class="q ${v?'':'zero'}" type="number" min="0" inputmode="numeric" value="${v||''}" placeholder="0" data-p="${p.id}" data-i="${i.id}" /></td>`; });
+    h+=`<td class="tot" data-t="${p.id}">${t||''}</td>`;
+    if(!S.admin) h+=`<td class="act"><button class="send ${t?'':'off'}" data-send="${p.id}">✓ Enviado</button></td>`;
+    h+='</tr>';
+  });
+  h+='</tbody><tfoot><tr><td class="pdv"><div class="in"><span class="nm" style="font-family:Archivo;font-size:11px;letter-spacing:.08em;text-transform:uppercase">Total '+(S.admin?'geral':esc(S.user.split(' ')[0]))+'</span></div></td>';
+  itens.forEach(i=>{ const t=pdvs.reduce((s,p)=>s+qty(p.id,i.id),0); h+=`<td data-f="${i.id}">${t||''}</td>`; });
+  h+=`<td>${pdvs.reduce((s,p)=>s+rowTotal(p.id),0)||''}</td>${S.admin?'':'<td></td>'}</tr></tfoot></table>`;
+  $('tw').innerHTML=h;
+  wireDist();
+}
+function vazio(t,s){ $('tw').innerHTML=`<div class="empty"><b>${t}</b>${s}</div>`; }
+function wireDist(){
+  $('tw').querySelectorAll('input.q').forEach(el=>{
+    el.onfocus=()=>el.select();
+    el.oninput=()=>{ let v=parseInt(el.value,10); if(isNaN(v)||v<0)v=0;
+      queue(+el.dataset.p,+el.dataset.i,v); el.classList.toggle('zero',!v); refreshCalc(); };
+    el.onkeydown=e=>{ if(e.key==='Enter'||e.key==='ArrowDown'){e.preventDefault();nav(el,1);} if(e.key==='ArrowUp'){e.preventDefault();nav(el,-1);} };
+  });
+  $('tw').querySelectorAll('[data-send]').forEach(b=>b.onclick=()=>marcarEnviado(+b.dataset.send));
+  $('tw').querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>delItem(+b.dataset.del));
+  $('tw').querySelectorAll('[data-tgl]').forEach(b=>b.onclick=()=>toggleEnvio(+b.dataset.tgl));
+}
+async function toggleEnvio(id){
+  const it=S.itens.find(i=>i.id===id), novo=!it.envio_ativo;
+  await patchItem(id,{envio_ativo:novo});
+  toast(novo?`${it.codigo} ativado · já aparece pros analistas`
+            :`${it.codigo} desativado · sumiu da tela dos analistas`,
+        ()=>{ patchItem(id,{envio_ativo:!novo}); render(); });
+  render();
+}
+function nav(el,d){ const all=[...$('tw').querySelectorAll(`input.q[data-i="${el.dataset.i}"]`)];
+  const n=all[all.indexOf(el)+d]; if(n){n.focus();n.select();} }
+function refreshCalc(){
+  const pdvs=visiveis();
+  itensView().forEach(i=>{
+    const s=(i.qtd_total||0)-enviada(i.id);
+    const th=$('tw').querySelector(`[data-saldo="${i.id}"]`);
+    if(th){ th.textContent=s.toLocaleString('pt-BR'); th.className=s<0?'neg':(s===0?'zero':''); }
+    const tf=$('tw').querySelector(`[data-f="${i.id}"]`);
+    if(tf) tf.textContent=pdvs.reduce((a,p)=>a+qty(p.id,i.id),0)||'';
+    $('tw').querySelectorAll(`input.q[data-i="${i.id}"]`).forEach(el=>el.classList.toggle('over',s<0&&+el.value>0));
+  });
+  pdvs.forEach(p=>{ const td=$('tw').querySelector(`[data-t="${p.id}"]`); if(td) td.textContent=rowTotal(p.id)||''; });
+}
+function marcarEnviado(pdvId){
+  const p=S.pdvs.find(x=>x.id===pdvId);
+  const vals=itensView().map(i=>[i.id,qty(pdvId,i.id)]).filter(v=>v[1]);
+  if(!vals.length) return;
+  vals.forEach(([iid])=>queue(pdvId,iid,0));
+  toast(`${p.nome} marcado como enviado`,()=>{ vals.forEach(([iid,v])=>queue(pdvId,iid,v)); render(); });
+  render();
+}
+
+/* ============================================================
+   CATÁLOGO
+   ============================================================ */
+function parseDuplas(txt){
+  const out=[],vistos=new Set();
+  txt.split('\n').forEach(raw=>{
+    const l=raw.trim(); if(!l) return;
+    const m=l.match(/^(\d+)\s*[\t;,|.\-–]?\s+(.+)$/)||l.match(/^(\d+)[\t;,|]\s*(.+)$/);
+    let codigo='',nome=l;
+    if(m){ codigo=m[1]; nome=m[2].trim(); }
+    nome=nome.replace(/\s{2,}/g,' ');
+    if(!nome) return;
+    const k=(codigo||nome).toLowerCase();
+    if(vistos.has(k)) return; vistos.add(k);
+    out.push({codigo,nome});
+  });
+  return out;
+}
+async function addCatalogo(){
+  const novos=parseDuplas($('c-bulk').value).filter(n=>n.codigo);
+  if(!novos.length){ alert('Cole ao menos uma linha com código e descrição.'); return; }
+  const rows=novos.map(n=>({codigo:n.codigo,descricao:n.nome}));
+  if(DEMO){ rows.forEach(r=>{ const e=S.cat.find(c=>c.codigo===r.codigo); e?e.descricao=r.descricao:S.cat.push(r); }); }
+  else{
+    const {error}=await sb.from('catalogo').upsert(rows,{onConflict:'codigo'});
+    if(error){ alert('Erro: '+error.message); return; }
+    const {data}=await sb.from('catalogo').select('*').order('codigo'); S.cat=data;
+  }
+  $('c-bulk').value='';
+  toast(`${rows.length} produto${rows.length>1?'s':''} no catálogo`);
+  render();
+}
+async function delCat(cod){
+  if(!confirm(`Remover ${cod} do catálogo? Itens já cadastrados não são afetados.`)) return;
+  if(!DEMO){ await sb.from('catalogo').delete().eq('codigo',cod); }
+  S.cat=S.cat.filter(c=>c.codigo!==cod); render();
+}
+function renderCat(){
+  $('t-eyebrow').textContent='Cadastro';
+  $('t-title').textContent='Catálogo de produtos';
+  $('t-sub').textContent=`${S.cat.length} produtos · é daqui que a descrição vem sozinha ao digitar o código`;
+  if(!S.cat.length) return vazio('Catálogo vazio','Cole as colunas CÓDIGO e PRODUTO da sua planilha no campo acima.');
+  const busca=($('h-busca').value||'').toLowerCase();
+  const list=S.cat.filter(c=>!busca||c.codigo.includes(busca)||c.descricao.toLowerCase().includes(busca));
+  let h=`<table><thead><tr>
+    <th class="pdvcol" style="min-width:100px;max-width:100px">Código</th>
+    <th class="pdvcol" style="position:static;min-width:420px">Produto</th>
+    <th class="pdvcol" style="position:static;min-width:110px">Em uso</th>
+    <th class="pdvcol" style="position:static;min-width:70px"></th></tr></thead><tbody>`;
+  list.forEach(c=>{
+    const uso=S.itens.some(i=>i.codigo===c.codigo && i.ativo);
+    h+=`<tr><td class="mono" style="border-left:none;text-align:left;padding:6px 10px">${esc(c.codigo)}</td>
+      <td style="border-left:none;text-align:left;padding:6px 10px">${esc(c.descricao)}</td>
+      <td style="border-left:none;font-size:11px;color:${uso?'var(--ok)':'var(--ink-3)'}">${uso?'na distribuição':'—'}</td>
+      <td style="border-left:none"><button class="send" data-dc="${esc(c.codigo)}">Remover</button></td></tr>`;
+  });
+  h+='</tbody></table>';
+  $('tw').innerHTML=h;
+  $('tw').querySelectorAll('[data-dc]').forEach(b=>b.onclick=()=>delCat(b.dataset.dc));
+}
+
+/* ============================================================
+   PONTOS DE VENDA
+   ============================================================ */
+async function addDestinos(){
+  const novos=parseDuplas($('d-bulk').value);
+  if(!novos.length){ alert('Cole ao menos uma linha. Formato: código e nome, um por linha.'); return; }
+  const jaTem=new Set(S.pdvs.map(p=>String(p.codigo).toLowerCase()));
+  const filtrados=novos.filter(n=>!(n.codigo&&jaTem.has(n.codigo.toLowerCase())));
+  const dup=novos.length-filtrados.length;
+  if(!filtrados.length){ alert(`Todos os ${dup} códigos colados já estão cadastrados.`); return; }
+  const resp=$('d-resp').value||null;
+  const base=S.pdvs.length;
+  const rows=filtrados.map((n,ix)=>({codigo:n.codigo||'',nome:n.nome,analista:resp,ordem:base+ix,ativo:true}));
+  if(DEMO){ rows.forEach((r,ix)=>S.pdvs.push({id:Date.now()+ix,...r})); }
+  else{
+    const {data,error}=await sb.from('pdvs').insert(rows).select();
+    if(error){ alert('Erro ao cadastrar: '+error.message); return; }
+    S.pdvs.push(...data);
+  }
+  $('d-bulk').value='';
+  toast(`${rows.length} destino${rows.length>1?'s':''} cadastrado${rows.length>1?'s':''}${dup?` · ${dup} já existia${dup>1?'m':''}`:''}`);
+  render();
+}
+async function setDestaque(pdvId,v){
+  S.pdvs.find(x=>x.id===pdvId).destaque=v;
+  if(DEMO){ setSync('','Modo demo · não salvo'); render(); return; }
+  const {error}=await sb.from('pdvs').update({destaque:v}).eq('id',pdvId);
+  setSync(error?'err':'',error?'Falha ao salvar':stamp());
+  render();
+}
+async function destaqueLote(v){
+  const ids=[...S.sel]; if(!ids.length) return;
+  ids.forEach(id=>{ S.pdvs.find(x=>x.id===id).destaque=v; });
+  if(!DEMO){ const {error}=await sb.from('pdvs').update({destaque:v}).in('id',ids);
+    if(error){ alert('Erro ao salvar: '+error.message); return; } }
+  toast(`${ids.length} ponto${ids.length>1?'s':''} ${v?'marcado':'desmarcado'}${ids.length>1?'s':''} como vende muito`);
+  S.sel.clear(); render();
+}
+async function setResp(pdvId,resp){
+  S.pdvs.find(x=>x.id===pdvId).analista=resp||null;
+  if(DEMO){ setSync('','Modo demo · não salvo'); return; }
+  const {error}=await sb.from('pdvs').update({analista:resp||null}).eq('id',pdvId);
+  setSync(error?'err':'',error?'Falha ao salvar':stamp());
+}
+async function atribuirLote(){
+  const resp=$('d-lote').value||null, ids=[...S.sel];
+  if(!ids.length) return;
+  ids.forEach(id=>{ S.pdvs.find(x=>x.id===id).analista=resp; });
+  if(!DEMO){ const {error}=await sb.from('pdvs').update({analista:resp}).in('id',ids);
+    if(error){ alert('Erro ao salvar: '+error.message); return; } }
+  toast(`${ids.length} ponto${ids.length>1?'s':''} → ${resp||SEM_RESP.toLowerCase()}`);
+  S.sel.clear(); render();
+}
+async function delPdv(id){
+  const p=S.pdvs.find(x=>x.id===id);
+  if(!confirm(`Remover "${p.nome}"? As quantidades lançadas nele serão perdidas.`)) return;
+  if(!DEMO){ await sb.from('pdvs').update({ativo:false}).eq('id',id); }
+  S.pdvs=S.pdvs.filter(x=>x.id!==id); S.sel.delete(id);
+  [...S.dist.keys()].forEach(k=>{ if(k.startsWith(id+':')) S.dist.delete(k); });
+  render();
+}
+function optsResp(v){ return `<option value=""${!v?' selected':''}>— ${SEM_RESP.toLowerCase()} —</option>`+
+  ANALISTAS.map(a=>`<option${a===v?' selected':''}>${esc(a)}</option>`).join(''); }
+function renderPdvs(){
+  const orfaos=S.pdvs.filter(p=>!p.analista).length;
+  $('t-eyebrow').textContent='Cadastro';
+  $('t-title').textContent='Pontos de venda';
+  $('t-sub').textContent=`${S.pdvs.length} destinos · ${orfaos} sem responsável`;
+  $('d-resp').innerHTML=optsResp($('d-resp').value);
+  $('d-lote').innerHTML=optsResp(null);
+  $('lote').classList.toggle('hide',!S.sel.size);
+  $('lote-n').textContent=S.sel.size;
+  if(!S.pdvs.length) return vazio('Nenhum destino ainda','Cole sua lista acima — pode copiar direto das colunas A e B da planilha.');
+  const list=ordPdvs(S.pdvs), allSel=list.every(p=>S.sel.has(p.id));
+  let h=`<table><thead><tr>
+    <th style="position:sticky;top:0;background:var(--card);border-bottom:1px solid var(--line-2);width:38px;padding:8px 0"><input type="checkbox" class="ck" id="d-all" ${allSel?'checked':''} /></th>
+    <th class="pdvcol" style="position:static;min-width:80px">Código</th>
+    <th class="pdvcol" style="position:static;min-width:280px">Ponto de venda</th>
+    <th class="pdvcol" style="position:static;min-width:190px">Responsável</th>
+    <th class="pdvcol" style="position:static;min-width:96px;text-align:center">Vende muito</th>
+    <th class="pdvcol" style="position:static;min-width:60px"></th></tr></thead><tbody>`;
+  list.forEach(p=>{
+    h+=`<tr data-p="${p.id}" class="${p.analista?'':'orf'} ${p.destaque?'destq':''}">
+      <td style="border-left:none"><input type="checkbox" class="ck" data-ck="${p.id}" ${S.sel.has(p.id)?'checked':''} /></td>
+      <td class="mono" style="border-left:none;text-align:left;padding:6px 10px">${esc(p.codigo)}</td>
+      <td style="border-left:none;text-align:left;padding:6px 10px" class="bold">${esc(p.nome)}</td>
+      <td style="border-left:none;padding:3px 6px"><select class="rp" data-rp="${p.id}">${optsResp(p.analista)}</select></td>
+      <td style="border-left:none"><button class="sw ${p.destaque?'on':''}" data-sw="${p.id}" role="switch" aria-checked="${!!p.destaque}" aria-label="Vende muito"><i></i></button></td>
+      <td style="border-left:none"><button class="send" data-dp="${p.id}">Remover</button></td></tr>`;
+  });
+  h+='</tbody></table>';
+  $('tw').innerHTML=h;
+  $('d-all').onchange=e=>{ e.target.checked?list.forEach(p=>S.sel.add(p.id)):S.sel.clear(); render(); };
+  $('tw').querySelectorAll('[data-ck]').forEach(c=>c.onchange=()=>{
+    c.checked?S.sel.add(+c.dataset.ck):S.sel.delete(+c.dataset.ck);
+    $('lote').classList.toggle('hide',!S.sel.size); $('lote-n').textContent=S.sel.size; });
+  $('tw').querySelectorAll('[data-rp]').forEach(s=>s.onchange=()=>setResp(+s.dataset.rp,s.value));
+  $('tw').querySelectorAll('[data-sw]').forEach(b=>b.onclick=()=>{
+    const id=+b.dataset.sw; setDestaque(id,!S.pdvs.find(x=>x.id===id).destaque); });
+  $('tw').querySelectorAll('[data-dp]').forEach(b=>b.onclick=()=>delPdv(+b.dataset.dp));
+}
+
+/* ============================================================
+   ITENS
+   ============================================================ */
+function syncCat(){
+  $('cat-list').innerHTML=S.cat.map(c=>`<option value="${esc(c.codigo)}">${esc(c.descricao)}</option>`).join('');
+  $('cat-hint').innerHTML=S.cat.length
+    ? `Catálogo com <b>${S.cat.length}</b> produtos. Digite o código e a descrição vem sozinha.`
+    : `Catálogo vazio — cadastre na aba <b>Catálogo</b> pra descrição vir sozinha. Sem ele, dá pra digitar na mão.`;
+  $('i-forn').innerHTML=FORNECEDORES.map(f=>`<option>${f}</option>`).join('');
+  $('i-status').innerHTML=STATUSES.map(s=>`<option>${s}</option>`).join('');
+}
+function autoDesc(){
+  const d=$('i-desc'), c=S.cat.find(c=>c.codigo===$('i-cod').value.trim());
+  if(c){ d.value=c.descricao; d.dataset.auto='1'; d.style.color='var(--ok)'; }
+  else if(d.dataset.auto){ d.value=''; delete d.dataset.auto; d.style.color=''; }
+}
+async function addItem(){
+  const cod=$('i-cod').value.trim(), desc=$('i-desc').value.trim();
+  if(!cod){ alert('Informe o código.'); return; }
+  if(!desc){ alert('Produto sem descrição. Cadastre o código no catálogo ou digite a descrição na mão.'); return; }
+  if(S.itens.some(i=>i.codigo===cod && i.ativo)){ alert('Esse código já está na distribuição.'); return; }
+  const row={codigo:cod,descricao:desc,fornecedor:$('i-forn').value,status:$('i-status').value,
+    qtd_total:parseInt($('i-qtd').value,10)||0,
+    data_chegada:$('i-cheg').value||null,data_liberacao:$('i-lib').value||null,
+    envio_ativo:$('i-envio').value==='1',
+    liberado:!!$('i-lib').value,ativo_prod:true,precificado:false,bug:false,observacao:'',ativo:true};
+  if(DEMO){ S.itens.push({id:Date.now(),...row}); }
+  else{
+    const {data,error}=await sb.from('itens').insert(row).select().single();
+    if(error){ alert('Erro ao cadastrar: '+error.message); return; }
+    S.itens.push(data);
+  }
+  if(!S.cat.some(c=>c.codigo===cod)){
+    if(!DEMO) await sb.from('catalogo').upsert({codigo:cod,descricao:desc},{onConflict:'codigo'});
+    S.cat.push({codigo:cod,descricao:desc});
+    toast(`${cod} adicionado · também entrou no catálogo`);
+  } else toast(`${cod} adicionado`);
+  ['i-cod','i-desc','i-qtd'].forEach(id=>$(id).value=''); $('i-desc').style.color='';
+  $('i-cod').focus(); syncCat(); render();
+}
+async function delItem(id){
+  const it=S.itens.find(i=>i.id===id);
+  if(!confirm(`Tirar ${it.codigo} da distribuição?\n\nA coluna some e as quantidades lançadas são zeradas.\nO histórico mantém o registro.`)) return;
+  await patchItem(id,{ativo:false});
+  [...S.dist.keys()].forEach(k=>{ if(k.endsWith(':'+id)) S.dist.delete(k); });
+  if(!DEMO) await sb.from('distribuicao').delete().eq('item_id',id);
+  toast(`${it.codigo} saiu da distribuição · continua no histórico`,
+        ()=>{ patchItem(id,{ativo:true}); render(); });
+  render();
+}
+
+/* ============================================================
+   HISTÓRICO
+   ============================================================ */
+const HCOLS=[
+  ['ANO','auto','da chegada',42],['MÊS','auto','da chegada',56],
+  ['DATA CHEGADA','edit','',104],['DATA LIBERAÇÃO','edit','',104],
+  ['CÓDIGO','auto','',62],['PRODUTO','auto','do catálogo',380],
+  ['FORNECEDOR','edit','',108],['QNTD TOTAL','edit','',74],['QNTD ENVIADA','auto','da distribuição',72],
+  ['STATUS','edit','',114],['LIBERADO','edit','',74],['ATIVO','edit','',68],['PRECIFICADO','edit','',84],
+  ['PRODUTO C/ BUG','edit','',84],['OBSERVAÇÃO','edit','',130],['','',' ',40]
+];
+function anoDe(i){ return i.data_chegada?i.data_chegada.slice(0,4):''; }
+function mesDe(i){ return i.data_chegada?MESES[+i.data_chegada.slice(5,7)-1]:''; }
+function filtraHist(){
+  const f=S.hf;
+  return S.itens.filter(i=>{
+    if(f.busca && !(i.codigo.includes(f.busca)||i.descricao.toLowerCase().includes(f.busca.toLowerCase()))) return false;
+    if(f.ano && anoDe(i)!==f.ano) return false;
+    if(f.forn && i.fornecedor!==f.forn) return false;
+    if(f.status && i.status!==f.status) return false;
+    if(f.flag==='bug' && !i.bug) return false;
+    if(f.flag==='naolib' && i.liberado) return false;
+    if(f.flag==='naoprec' && i.precificado) return false;
+    if(f.flag==='inat' && i.ativo_prod) return false;
+    if(f.flag==='removido' && i.ativo) return false;
+    return true;
+  }).sort((a,b)=>String(b.data_chegada||'').localeCompare(String(a.data_chegada||''))||b.id-a.id);
+}
+function simnao(id,campo,v){
+  return `<select class="he ${v?'sim':'nao'}" data-h="${id}" data-c="${campo}" data-b="1">
+    <option value="1"${v?' selected':''}>SIM</option><option value="0"${v?'':' selected'}>NÃO</option></select>`;
+}
+function renderHist(){
+  const anos=[...new Set(S.itens.map(anoDe).filter(Boolean))].sort().reverse();
+  const opt=(l,arr,v)=>`<option value="">${l}</option>`+arr.map(a=>`<option${a===v?' selected':''}>${a}</option>`).join('');
+  $('h-ano').innerHTML=opt('Todos os anos',anos,S.hf.ano);
+  $('h-forn').innerHTML=opt('Todo fornecedor',FORNECEDORES,S.hf.forn);
+  $('h-status').innerHTML=opt('Todo status',STATUSES,S.hf.status);
+  $('h-flag').value=S.hf.flag;
+  $('h-busca').placeholder='Buscar código ou produto…';
+
+  const list=filtraHist();
+  const bugs=S.itens.filter(i=>i.bug).length, rem=S.itens.filter(i=>!i.ativo).length;
+  $('t-eyebrow').textContent='Registro';
+  $('t-title').textContent='Histórico';
+  $('t-sub').innerHTML=`${list.length} de ${S.itens.length} itens${bugs?` · <b style="color:var(--red)">${bugs} com bug</b>`:''}${rem?` · ${rem} fora da distribuição`:''}`;
+
+  if(!S.itens.length) return vazio('Histórico vazio','Cada item que você cadastra na Distribuição entra aqui automaticamente e nunca sai.');
+  if(!list.length) return vazio('Nada com esses filtros','Ajuste ou limpe os filtros acima.');
+
+  let h='<table id="tw-hist"><colgroup>'+HCOLS.map(c=>`<col style="width:${c[3]}px">`).join('')+'</colgroup><thead><tr>';
+  HCOLS.forEach(c=>{ h+=`<th class="hcol ${c[1]==='auto'?'auto':''}">${c[0]}${c[2].trim()?`<i>${c[2]}</i>`:''}</th>`; });
+  h+='</tr></thead><tbody>';
+  list.forEach(i=>{
+    const env=enviada(i.id);
+    h+=`<tr class="${i.ativo_prod?'':'inat'} ${i.ativo?'':'rem'}">
+      <td class="hauto">${anoDe(i)||'—'}</td>
+      <td class="hauto">${mesDe(i)||'—'}</td>
+      <td><input class="he" type="date" value="${i.data_chegada||''}" data-h="${i.id}" data-c="data_chegada" /></td>
+      <td><input class="he" type="date" value="${i.data_liberacao||''}" data-h="${i.id}" data-c="data_liberacao" /></td>
+      <td class="hauto">${esc(i.codigo)}${i.ativo?'':'<i class="remtag">fora</i>'}</td>
+      <td class="hprod" title="${esc(i.descricao)}">${esc(i.descricao)}</td>
+      <td><select class="he" data-h="${i.id}" data-c="fornecedor">${FORNECEDORES.map(f=>`<option${f===i.fornecedor?' selected':''}>${f}</option>`).join('')}</select></td>
+      <td><input class="he mono" type="number" min="0" value="${i.qtd_total||0}" data-h="${i.id}" data-c="qtd_total" data-n="1" /></td>
+      <td class="hauto" style="font-weight:700;${env>(i.qtd_total||0)?'background:var(--red-bg);color:var(--red)':''}">${env.toLocaleString('pt-BR')}</td>
+      <td><select class="he" data-h="${i.id}" data-c="status">${STATUSES.map(s=>`<option${s===i.status?' selected':''}>${s}</option>`).join('')}</select></td>
+      <td>${simnao(i.id,'liberado',i.liberado)}</td>
+      <td>${simnao(i.id,'ativo_prod',i.ativo_prod)}</td>
+      <td>${simnao(i.id,'precificado',i.precificado)}</td>
+      <td class="${i.bug?'bug':''}">${simnao(i.id,'bug',i.bug)}</td>
+      <td><input class="he hobs" value="${esc(i.observacao||'')}" placeholder="—" data-h="${i.id}" data-c="observacao" /></td>
+      <td><button class="hdel" data-hdel="${i.id}" title="Apagar do histórico" aria-label="Apagar do histórico">×</button></td>
+    </tr>`;
+  });
+  h+='</tbody></table>';
+  $('tw').innerHTML=h;
+  $('tw').querySelectorAll('[data-hdel]').forEach(b=>b.onclick=()=>apagarHist(+b.dataset.hdel));
+  $('tw').querySelectorAll('[data-h]').forEach(el=>{
+    const ev=el.tagName==='SELECT'||el.type==='date'?'onchange':'onblur';
+    el[ev]=()=>{
+      const id=+el.dataset.h, c=el.dataset.c;
+      let v=el.value;
+      if(el.dataset.b) v=v==='1';
+      else if(el.dataset.n) v=parseInt(v,10)||0;
+      else if(el.type==='date') v=v||null;
+      patchItem(id,{[c]:v});
+      if(c==='data_chegada'||c==='bug'||c==='ativo_prod') render();
+      else if(el.dataset.b) el.className='he '+(v?'sim':'nao');
+    };
+  });
+}
+
+async function apagarHist(id){
+  const it=S.itens.find(x=>x.id===id), env=enviada(id);
+  if(!confirm(`APAGAR ${it.codigo} do histórico de vez?\n\n${it.descricao}\nChegada: ${it.data_chegada||'sem data'}`
+    +(env?`\n\nAtenção: tem ${env} peças lançadas na distribuição. Elas somem junto.`:'')
+    +`\n\nIsso não tem desfazer. Se a ideia é só tirar da distribuição, use o × no card e o registro fica aqui.`)) return;
+  if(!DEMO){ const {error}=await sb.from('itens').delete().eq('id',id);
+    if(error){ alert('Erro ao apagar: '+error.message); return; } }
+  S.itens=S.itens.filter(x=>x.id!==id);
+  [...S.dist.keys()].forEach(k=>{ if(k.endsWith(':'+id)) S.dist.delete(k); });
+  setSync('',stamp()); toast(`${it.codigo} apagado do histórico`); render();
+}
+
+/* ---------- CSV ---------- */
+function csv(){
+  let head,rows,nome;
+  if(S.view==='hist'){
+    head=HCOLS.slice(0,15).map(c=>c[0]);
+    rows=filtraHist().map(i=>[anoDe(i),mesDe(i),i.data_chegada||'',i.data_liberacao||'',i.codigo,i.descricao,
+      i.fornecedor||'',i.qtd_total||0,enviada(i.id),i.status||'',i.liberado?'SIM':'NÃO',i.ativo_prod?'SIM':'NÃO',
+      i.precificado?'SIM':'NÃO',i.bug?'SIM':'NÃO',i.observacao||'']);
+    nome='historico';
+  } else if(S.view==='pdvs'){
+    head=['Filial','Ponto de venda','Responsável','Vende muito'];
+    rows=ordPdvs(S.pdvs).map(p=>[p.codigo,p.nome,p.analista||SEM_RESP,p.destaque?'SIM':'NÃO']);
+    nome='pontos_de_venda';
+  } else {
+    const pdvs=visiveis();
+    const iv=itensView();
+    head=['Analista','Código','Ponto de venda',...iv.map(i=>i.codigo),'Total'];
+    rows=[['','','Produto',...iv.map(i=>i.descricao),''],
+      ['','','Envio',...iv.map(i=>i.envio_ativo?'ATIVO':'DESATIVADO'),''],
+      ...pdvs.map(p=>[p.analista||SEM_RESP,p.codigo,p.nome,...iv.map(i=>qty(p.id,i.id)||0),rowTotal(p.id)])];
+    nome='distribuicao_'+(S.admin?'geral':S.user);
+  }
+  const body=[head,...rows].map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(';')).join('\n');
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob(['\ufeff'+body],{type:'text/csv;charset=utf-8'}));
+  a.download=`${nome.replace(/\s+/g,'_').toLowerCase()}_${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+}
+
+/* ---------- toast ---------- */
+function toast(msg,undo){
+  document.querySelector('.toast')?.remove();
+  const t=document.createElement('div'); t.className='toast';
+  t.innerHTML=`<span>${msg}</span>`;
+  if(undo){ const b=document.createElement('button'); b.textContent='Desfazer';
+    b.onclick=()=>{undo();t.remove();}; t.appendChild(b); }
+  document.body.appendChild(t); setTimeout(()=>t.remove(),7000);
+}
+
+/* ---------- polling ---------- */
+function startPoll(){ stopPoll(); if(DEMO) return; pollTimer=setInterval(async()=>{
+  if(pending.size) return;
+  if(S.view==='pdvs'||S.view==='cat'||S.view==='hist') return;
+  if(document.activeElement?.classList.contains('q')) return;
+  const before=JSON.stringify([...S.dist].sort())+S.itens.length;
+  try{ await load(); }catch(e){ return; }
+  if(JSON.stringify([...S.dist].sort())+S.itens.length!==before) render();
+},POLL_MS); }
+function stopPoll(){ if(pollTimer) clearInterval(pollTimer); }
+
+/* ---------- boot ---------- */
+$('b-back').onclick=back;
+$('b-csv').onclick=csv;
+$('b-add').onclick=addItem;
+$('b-dadd').onclick=addDestinos;
+$('b-cadd').onclick=addCatalogo;
+$('b-lote').onclick=atribuirLote;
+$('b-lote-x').onclick=()=>{ S.sel.clear(); render(); };
+$('b-dq1').onclick=()=>destaqueLote(true);
+$('b-dq0').onclick=()=>destaqueLote(false);
+$('b-toggle').onclick=()=>{ S.showDone=!S.showDone; render(); };
+$('i-cod').oninput=autoDesc;
+$('i-desc').oninput=()=>{ delete $('i-desc').dataset.auto; $('i-desc').style.color=''; };
+$('i-qtd').onkeydown=e=>{ if(e.key==='Enter') addItem(); };
+$('h-busca').oninput=()=>{ S.hf.busca=$('h-busca').value.trim(); render(); };
+['ano','forn','status','flag'].forEach(k=>$('h-'+k).onchange=()=>{ S.hf[k]=$('h-'+k).value; render(); });
+$('h-limpa').onclick=()=>{ S.hf={busca:'',ano:'',forn:'',status:'',flag:''}; $('h-busca').value=''; render(); };
+window.addEventListener('beforeunload',()=>{ if(pending.size) flush(); });
+
+(async()=>{
+  if(DEMO) $('banner').innerHTML='<div class="banner"><b>Modo demo.</b> Dados fictícios, nada é gravado.</div>';
+  try{ await load(); }
+  catch(e){ $('banner').innerHTML='<div class="banner">Não consegui falar com o Supabase. Confira a URL, a anon key e se o <b>schema.sql</b> foi executado — ele mudou nesta versão.</div>'; loadDemo(); }
+  setSync('','Sincronizado'); syncCat(); renderPick();
+  const u=sessionStorage.getItem('vx_user'); if(u) enter(u);
+})();
+</script>
+</body>
+</html>
